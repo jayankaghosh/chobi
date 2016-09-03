@@ -19,11 +19,11 @@
 		height: 500px;
 	}
 </style>
-<script type="text/javascript" src="src/Chobi.min.js"></script>
+<script type="text/javascript" src="src/Chobi.js"></script>
 <script type="text/javascript">
 	
 	//make global Chobi object
-	var imgObj = null;
+	var imgObj = null,backupImg = null;
 
 
 	function loadFileToCanvas(){
@@ -31,6 +31,7 @@
 		//pass input type=file element to Chobi constructor
 		imgObj = new Chobi(document.getElementById("image-file"));
 		imgObj.ready(function(){
+			backupImg = imgObj.getImage();
 			imgObj.canvas = document.getElementById("canvas");
 			imgObj.loadImageToCanvas();
 		});
@@ -40,6 +41,7 @@
 		//pass image URL to Chobi constructor
 		imgObj = new Chobi("demo.jpg");
 		imgObj.ready(function(){
+			backupImg = imgObj.getImage();
 			imgObj.canvas = document.getElementById("canvas");
 			imgObj.loadImageToCanvas();
 		});
@@ -99,6 +101,14 @@
 		}
 		imgObj.download("my-manipulated-image");
 	}
+
+	function reset(){
+		imgObj = new Chobi(backupImg);
+		imgObj.ready(function(){
+			this.canvas = document.getElementById("canvas");
+			this.loadImageToCanvas();
+		});
+	}
 </script>
 <body>
 	<h1 class="header">Chobi Demo</h1>
@@ -114,7 +124,8 @@
 	</div>
 	<hr/>
 	<div class="division">
-		<h2>Filters are applied on top of one another. Reselect the image to start from beginning</h2>
+		<h2>Filters are applied on top of one another. Reselect the image to start from beginning or press the reset button</h2>
+		<button onclick="reset()">Reset</button>
 		<button onclick="filter(0)">Black and White</button>
 		<button onclick="filter(1)">Sepia</button>
 		<button onclick="filter(2)">Negative</button>
