@@ -20,7 +20,7 @@ The Image Processing Library made in pure Javascript
 * IMG Element
         `var imgObj = new Chobi(document.getElementById('myimg');`
   
-  __Then call various filter methods on the Chobi object__
+__Then call various filter methods on the Chobi object__
   
 - Black And White `imgObj.blackAndWhite()`
 - Sepia `imgObj.sepia()`
@@ -31,17 +31,13 @@ The Image Processing Library made in pure Javascript
 - Contrast `imgObj.contrast(amount)`
 - Filter chaining is also possible `imgObj.brightness(-5).sepia().negative()`
     	
-  __To load the Image to a canvas -__ 
-      Call the `loadImageToCanvas()` method on the Chobi object
+__To load the Image to a canvas -__ Call the `loadImageToCanvas()` method on the Chobi object
   
-  __To get an Image Element From the Chobi Object -__
-      Call the `getImage()` method on the Chobi object
+__To get an Image Element From the Chobi Object -__ Call the `getImage()` method on the Chobi object
       
-  __To get the Image Data, like width, height and pixel information -__
-      Call the `extractImageData()` method on the Chobi object
+__To get the Image Data, like width, height and pixel information -__ Call the `extractImageData()` method on the Chobi object
       
-  __To download the Chobi object as an image -__
-      Call the `download(filename)` meethod on the Chobi object
+__To download the Chobi object as an image -__ Call the `download(filename)` meethod on the Chobi object
       
   
-  ##For further implementation example, refer the demo.html file
+##For further implementation example, refer the demo.html file
