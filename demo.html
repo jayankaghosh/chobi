@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chobi Demo</title>
+</head>
+<style type="text/css">
+	.division{
+		padding: 2%;
+	}
+	.canvas-container{
+		display:inline-block;
+		border:1px solid black;
+	}
+	.header{
+		text-align: center;
+	}
+	#canvas{
+		width: 800px;
+		height: 500px;
+	}
+</style>
+<script type="text/javascript" src="Chobi.min.js"></script>
+<script type="text/javascript">
+	
+	//make global Chobi object
+	var imgObj = null;
+
+
+	function loadFileToCanvas(){
+
+		//pass input type=file element to Chobi constructor
+		imgObj = new Chobi(document.getElementById("image-file"));
+		imgObj.ready(function(){
+			imgObj.canvas = document.getElementById("canvas");
+			imgObj.loadImageToCanvas();
+		});
+	}
+	function loadUrlToCanvas(){
+
+		//pass image URL to Chobi constructor
+		imgObj = new Chobi("demo1.jpg");
+		imgObj.ready(function(){
+			imgObj.canvas = document.getElementById("canvas");
+			imgObj.loadImageToCanvas();
+		});
+	}
+
+
+	//0 -> Black and white
+	//1 -> sepia
+	//2 -> negative
+	//3 -> vintage
+	//4 -> crossprocess
+	//5 -> Brightness increase
+	//6 -> Brightness decrease
+	//7 -> Contrast increase
+	//8 -> Contrast decrease
+	//filter chaining is also possible, like imgObj.brightness(-5).sepia().negative();
+	function filter(id){
+		if(imgObj == null){
+			alert("Choose an image first!");
+			return;
+		}
+		if(id==0){
+			imgObj.blackAndWhite();
+		}
+		else if(id==1){
+			imgObj.sepia();
+		}
+		else if(id==2){
+			imgObj.negative();
+		}
+		else if(id==3){
+			imgObj.vintage();
+		}
+		else if(id==4){
+			imgObj.crossProcess();
+		}
+		else if(id==5){
+			imgObj.brightness(1);
+		}
+		else if(id==6){
+			imgObj.brightness(-1);
+		}
+		else if(id==7){
+			imgObj.contrast(1);
+		}
+		else if(id==8){
+			imgObj.contrast(-1);
+		}
+
+		imgObj.loadImageToCanvas();
+	}
+
+	function download(){
+		if(imgObj == null){
+			alert("Choose an image first!");
+			return;
+		}
+		imgObj.download("my-manipulated-image");
+	}
+</script>
+<body>
+	<h1 class="header">Chobi Demo</h1>
+	<hr/>
+	<div class="division">
+		<h1>Load Image From File</h1>
+		<input type="file" id="image-file" onchange="loadFileToCanvas()">
+	</div>
+	<hr/>
+	<div class="division">
+		<h1>Load Image From URL (demo.jpg)</h1>
+		<button onclick="loadUrlToCanvas()">Load Image</button>
+	</div>
+	<hr/>
+	<div class="division">
+		<h2>Filters are applied on top of one another. Reselect the image to start from beginning</h2>
+		<button onclick="filter(0)">Black and White</button>
+		<button onclick="filter(1)">Sepia</button>
+		<button onclick="filter(2)">Negative</button>
+		<button onclick="filter(3)">Vintage</button>
+		<button onclick="filter(4)">Cross Process</button>
+		<button onclick="filter(5)">Brightness +1</button>
+		<button onclick="filter(6)">Brightness -1</button>
+		<button onclick="filter(7)">Contrast +1</button>
+		<button onclick="filter(8)">Contrast -1</button>
+		<hr/>
+		<button onclick="download()">Download</button>
+		
+		
+		
+
+	</div>
+	<div class="canvas-container">
+		<canvas width="800" height="500" id="canvas"></canvas>
+	</div>
+</body>
+</html>
