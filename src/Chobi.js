@@ -53,7 +53,26 @@ var Chobi = function(elem){
 					};
 					fr.readAsDataURL(file);
 				} catch(e) {
-					console.log("Not input[file]. Trying as <img>");
+					console.log("Not input[file]. Trying as <canvas>");
+				}
+				try{
+					var img = new Image();
+					var imgData = elem.toDataURL();
+					img.src = imgData;
+					console.log(imgData);
+					img.onload = function(){
+						context.image = img;
+						context.imageData = context.extractImageData();
+						console.log('Type matched. <canvas>. Saved as [Chobi object]');
+						try{
+							context.onload();
+						}catch(e){
+							console.log('ready callback not found');
+						}
+						return;
+					}
+				}catch(e){
+					console.log('Not <canvas>. Trying as <img>');
 				}
 				try{
 					var img = new Image();
@@ -72,6 +91,7 @@ var Chobi = function(elem){
 				}catch(e){
 					console.log('Not <img>. No other type is supported');
 				}
+
 			}
 		}
 		Chobi.prototype.ready = function(onLoadFunc){
