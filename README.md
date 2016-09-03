@@ -9,8 +9,7 @@ The Image Processing Library made in pure Javascript
   
   __Then make a new object of Chobi__
   
-  The Chobi constructor takes 4 types of parameters
-  
+The Chobi constructor takes 4 types of parameters
 * Input type[file] element
     `var imgObj = new Chobi(document.getElementById("image-file");`
 * Path to image file
@@ -20,8 +19,9 @@ The Image Processing Library made in pure Javascript
 * IMG Element
         `var imgObj = new Chobi(document.getElementById('myimg');`
   
+
+
 __Then call various filter methods on the Chobi object__
-  
 - Black And White `imgObj.blackAndWhite()`
 - Sepia `imgObj.sepia()`
 - Negative `imgObj.negative()`
@@ -30,6 +30,8 @@ __Then call various filter methods on the Chobi object__
 - Brightness `imgObj.brightness(amount)`
 - Contrast `imgObj.contrast(amount)`
 - Filter chaining is also possible `imgObj.brightness(-5).sepia().negative()`
+
+
     	
 __To load the Image to a canvas -__ Call the `loadImageToCanvas()` method on the Chobi object
   
