@@ -20,9 +20,10 @@ The Chobi constructor takes 4 types of parameters
         `var imgObj = new Chobi(document.getElementById('myimg');`
 
 
-#To execute a function whenever the Chobi object is loaded
+__To execute a function whenever the Chobi object is loaded__
 
-__Call the ready(callback) method__ `imgObj.ready(function(){this.loadImageToCanvas(document.getElementById("canvas"))`
+__Call the ready(callback) method__ 
+`imgObj.ready(function(){this.loadImageToCanvas(document.getElementById("canvas"));}`
 
 __To set the default canvas element__ `imgObj.canvas = document.getElementById("canvas")`
 Then you can directly call `loadImageToCanvas()` method without any parameters, and it will load the image to the default canvas
@@ -49,6 +50,13 @@ __To get an Image Element From the Chobi Object -__ Call the `getImage()` method
 __To get the Image Data, like width, height and pixel information -__ Call the `extractImageData()` method on the Chobi object
       
 __To download the Chobi object as an image -__ Call the `download(filename)` meethod on the Chobi object
+
+__To make your own filter you may use the following methods__
+
+`imgObj.getColorAt(x,y)` to __get the r,g,b,a values at the x,y coordinate__
+`imgObj.setColorAt(x,y,colorObj)` to __set the Color at x,y coordinate with colorObj__. ColorObj has the following format {red: redValue, green: greenValue, blue: blueValue, alpha: alphaValue}
+`imgObj.imageData.width` to get the __width__ of the image
+`imgObj.imageData.height` to get the __height__ of the image
       
   
 ##For further implementation example, refer the demo.html file
