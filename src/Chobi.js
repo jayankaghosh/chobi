@@ -151,6 +151,22 @@ var Chobi = function(elem){
 			}
 			return this;
 		}
+		Chobi.prototype.blackAndWhite2 = function(){
+			var imageData = this.imageData;
+			for(var i=0;i<imageData.width;i++){
+				for(var j=0;j<imageData.height;j++){
+					var index=(j*4)*imageData.width+(i*4);
+					var red=imageData.data[index];
+         			var green=imageData.data[index+1];
+        	 		var blue=imageData.data[index+2];
+        	 		var avg = ((red*0.3)+(green*0.59)+(blue*0.11));
+        	 		imageData.data[index] = avg;
+        	 		imageData.data[index+1] = avg;
+        	 		imageData.data[index+2] = avg;
+				}
+			}
+			return this;
+		}
 		Chobi.prototype.sepia = function(){
 			var imageData = this.imageData;
 			for(var i=0;i<imageData.width;i++){
@@ -178,6 +194,28 @@ var Chobi = function(elem){
         	 		red = 255-red;
         	 		green = 255-green;
         	 		blue = 255-blue;
+        	 		imageData.data[index] = red;
+        	 		imageData.data[index+1] = green;
+        	 		imageData.data[index+2] = blue;
+				}
+			}
+			return this;
+		}
+		Chobi.prototype.random = function(min, max) {
+    		return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+		Chobi.prototype.noise = function(){
+			var imageData = this.imageData;
+			for(var i=0;i<imageData.width;i++){
+				for(var j=0;j<imageData.height;j++){
+					var index=(j*4)*imageData.width+(i*4);
+					var rindex=(i*4)*imageData.width+(j*4);
+					var randRed = this.random(100,200);
+					var randGreen = this.random(100,200);
+					var randBlue = this.random(100,200);
+					var red=(imageData.data[index]+randRed)/2;
+         			var green=(imageData.data[index+1]+randGreen)/2;
+        	 		var blue=(imageData.data[index+2]+randBlue)/2;
         	 		imageData.data[index] = red;
         	 		imageData.data[index+1] = green;
         	 		imageData.data[index+2] = blue;
@@ -268,6 +306,14 @@ var Chobi = function(elem){
 				}
 			}
 			this.contrast(50);
+			return this;
+		}
+		Chobi.prototype.crayon = function() {
+			this.noise().contrast(500);
+			return this;
+		}
+		Chobi.prototype.cartoon = function() {
+			this.contrast(400);
 			return this;
 		}
 		Chobi.prototype.canvas = null;
