@@ -18,6 +18,14 @@ The Chobi constructor takes 4 types of parameters
     `var imgObj = new Chobi(new Image(...));`
 * IMG Element
         `var imgObj = new Chobi(document.getElementById('myimg');`
+
+
+#To execute a function whenever the Chobi object is loaded
+
+__Call the ready(callback) method__ `imgObj.ready(function(){this.loadImageToCanvas(document.getElementById("canvas"))`
+
+__To set the default canvas element__ `imgObj.canvas = document.getElementById("canvas")`
+Then you can directly call `loadImageToCanvas()` method without any parameters, and it will load the image to the default canvas
   
 
 
