@@ -29,6 +29,7 @@ __Then call various filter methods on the Chobi object__
 - Cross Process`imgObj.crossProcess()`
 - Brightness `imgObj.brightness(amount)`
 - Contrast `imgObj.contrast(amount)`
+- Crop `imgObj.crop(xCord,yCord,width,height)`
 - Filter chaining is also possible `imgObj.brightness(-5).sepia().negative()`
 
 
