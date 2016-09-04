@@ -39,6 +39,9 @@ __Then call various filter methods on the Chobi object__
 - Brightness `imgObj.brightness(amount)`
 - Contrast `imgObj.contrast(amount)`
 - Crop `imgObj.crop(xCord,yCord,width,height)`
+- Noise effect `imgObj.noise()`
+- Crayon effect `imgObj.crayon()`
+- Cartoonify `imgObj.cartoon()`
 - Filter chaining is also possible `imgObj.brightness(-5).sepia().negative()`
 
 
