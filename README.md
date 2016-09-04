@@ -52,11 +52,10 @@ __To get the Image Data, like width, height and pixel information -__ Call the `
 __To download the Chobi object as an image -__ Call the `download(filename)` meethod on the Chobi object
 
 __To make your own filter you may use the following methods__
-
-`imgObj.getColorAt(x,y)` to __get the r,g,b,a values at the x,y coordinate__
-`imgObj.setColorAt(x,y,colorObj)` to __set the Color at x,y coordinate with colorObj__. ColorObj has the following format {red: redValue, green: greenValue, blue: blueValue, alpha: alphaValue}
-`imgObj.imageData.width` to get the __width__ of the image
-`imgObj.imageData.height` to get the __height__ of the image
+- `imgObj.getColorAt(x,y)` to __get the r,g,b,a values at the x,y coordinate__
+- `imgObj.setColorAt(x,y,colorObj)` to __set the Color at x,y coordinate with colorObj__. ColorObj has the following format {red: redValue, green: greenValue, blue: blueValue, alpha: alphaValue}
+- `imgObj.imageData.width` to get the __width__ of the image
+- `imgObj.imageData.height` to get the __height__ of the image
       
   
 ##For further implementation example, refer the demo.html file
