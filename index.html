@@ -81,6 +81,8 @@
 			<button class="btn btn-success" onclick="filter(8)">Contrast -1</button>
 			<button class="btn btn-success" onclick="filter(11)">Crayon</button>
 			<button class="btn btn-success" onclick="filter(12)">Cartoonify</button>
+			<button class="btn btn-success" onclick="filter(13)">Vignette</button>
+			<button class="btn btn-warning" onclick="myFilter()">Custom Filter</button>
 		</div>
 		<input type="file" id="image-chooser" style="display:none" onchange="loadImage(this)">
       	<canvas id="canvas" width="600" height="600" class="well"></canvas>
@@ -118,6 +120,76 @@
 </div>
 </body>
 <script type="text/javascript">
+
+
+	//custom filter
+	function myFilter(scaleLevel){
+		if(scaleLevel==""||scaleLevel==null){
+			scaleLevel = 0.1;
+		}
+		var imgCntX = imgObj.imageData.width/2;
+		var imgCntY = imgObj.imageData.height/2;
+		var maxDis = Math.sqrt((imgCntY*imgCntY) + (imgCntX*imgCntX));
+		var dis = Math.sqrt(((imgObj.imageData.width/2-i)*(imgObj.imageData.width/2-i))-((imgObj.imageData.height/2-j)*(imgObj.imageData.height/2-j)));
+
+		for(var i=0;i<imgObj.imageData.width;i++){
+			for(var j=0;j<imgObj.imageData.height;j++){
+				var mix = imgObj.getColorAt(i,j);
+				var dis = Math.sqrt(Math.floor(Math.pow(i-imgCntY,2))+Math.floor(Math.pow(j-imgCntX,2)));
+				mix.red = mix.red*(1-(1-scaleLevel)*(dis/maxDis));
+           		mix.green = mix.green*(1-(1-scaleLevel)*(dis/maxDis));
+           		mix.blue = mix.blue*(1-(1-scaleLevel)*(dis/maxDis));
+				imgObj.setColorAt(i,j,mix);
+			}
+		}
+
+		//First quadrant (black and white)
+		for(var i=0;i<imgObj.imageData.width/2;i++){
+			for(var j=0;j<imgObj.imageData.height/2;j++){
+				var mix = imgObj.getColorAt(i,j);
+				var avg = (mix.red+mix.green+mix.blue)/3;
+				mix.red = avg;
+				mix.green = avg;
+				mix.blue = avg;
+				imgObj.setColorAt(i,j,mix);
+			}
+		}
+		//Second quadrant (sepia)
+		for(var i=imgObj.imageData.width/2;i<imgObj.imageData.width;i++){
+			for(var j=0;j<imgObj.imageData.height/2;j++){
+				var mix = imgObj.getColorAt(i,j);
+				var red = (mix.red*0.393)+(mix.green*0.769)+(mix.blue*0.189);
+    	 		var green = (mix.red*0.349)+(mix.green*0.686)+(mix.blue*0.168);
+    	 		var blue = (mix.red*0.272)+(mix.green*0.534)+(mix.blue*0.131);
+				mix.red = red;
+				mix.green = green;
+				mix.blue = blue;
+				imgObj.setColorAt(i,j,mix);
+			}
+		}
+		//Third quadrant (negative)
+		for(var i=0;i<imgObj.imageData.width/2;i++){
+			for(var j=imgObj.imageData.height/2;j<imgObj.imageData.height;j++){
+				var mix = imgObj.getColorAt(i,j);
+				mix.red = 255-mix.red;
+				mix.green = 255-mix.green;
+				mix.blue = 255-mix.blue;
+				imgObj.setColorAt(i,j,mix);
+			}
+		}
+		//Fourth quadrant (crossProcess)
+		for(var i=imgObj.imageData.width/2;i<imgObj.imageData.width;i++){
+			for(var j=imgObj.imageData.height/2;j<imgObj.imageData.height;j++){
+				var mix = imgObj.getColorAt(i,j);
+				mix.red = mix.green;
+				mix.green = mix.red;
+				mix.blue = 150;
+				imgObj.setColorAt(i,j,mix);
+			}
+		}
+		imgObj.loadImageToCanvas();
+	}
+
 	var imgObj = null; //global Chobi object
 	function loadImage(elem){
 		//you should probably check if file is image or not before passing it
@@ -156,6 +228,7 @@
 	//9 -> Noise Effect
 	//11 -> Crayon effect
 	//12 -> Cartoonify
+	//13 -> Vignette
 	//filter chaining is also possible, like imgObj.brightness(-5).sepia().negative();
 	function filter(id){
 		if(imgObj == null){
@@ -200,6 +273,9 @@
 		}
 		else if(id==12){
 			imgObj.cartoon();
+		}
+		else if(id==13){
+			imgObj.vignette();
 		}
 
 
