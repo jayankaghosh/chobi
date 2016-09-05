@@ -44,6 +44,7 @@ __Then call various filter methods on the Chobi object__
 - Noise effect `imgObj.noise()`
 - Crayon effect `imgObj.crayon()`
 - Cartoonify `imgObj.cartoon()`
+- Vignette `imgObj.vignette(amount)`
 - Filter chaining is also possible `imgObj.brightness(-5).sepia().negative()`
 
 
