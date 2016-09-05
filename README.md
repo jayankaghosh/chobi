@@ -54,7 +54,7 @@ __To get an Image Element From the Chobi Object -__ Call the `getImage()` method
       
 __To get the Image Data, like width, height and pixel information -__ Call the `extractImageData()` method on the Chobi object
       
-__To download the Chobi object as an image -__ Call the `download(filename,filetype)` meethod on the Chobi object
+__To download the Chobi object as an image -__ Call the `download(filename,filetype)` method on the Chobi object
 
 __To make your own filter you may use the following methods__
 - `imgObj.getColorAt(x,y)` to __get the r,g,b,a values at the x,y coordinate__
