@@ -121,14 +121,10 @@ var Chobi = function(elem){
 		Chobi.prototype.setColorAt = function(x,y,obj){
 			var index=(y*4)*this.imageData.width+(x*4);
 			try{
-				r = obj.red;
-				g = obj.green;
-				b = obj.blue;
-				a = obj.alpha;
-				this.imageData.data[index] = r;
-				this.imageData.data[index+1] = g;
-				this.imageData.data[index+2] = b;
-				this.imageData.data[index+3] = a;
+				this.imageData.data[index] = obj.red;
+				this.imageData.data[index+1] = obj.green;
+				this.imageData.data[index+2] = obj.blue;
+				this.imageData.data[index+3] = obj.alpha;
 				return true;
 			}
 			catch(e){
