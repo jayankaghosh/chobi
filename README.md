@@ -1,6 +1,8 @@
 # chobi
 The Image Processing Library made in pure Javascript
 
+<img src="http://i.imgur.com/k029yZm.jpg" alt="Drawing" width="200" height:="200"/><img src="http://i.imgur.com/efYOXGL.png" alt="Drawing" width="200" height:="200"/>
+
 ##Usage
 
   __Include the Javascript file like this__
