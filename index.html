@@ -124,24 +124,6 @@
 
 	//custom filter
 	function myFilter(scaleLevel){
-		if(scaleLevel==""||scaleLevel==null){
-			scaleLevel = 0.1;
-		}
-		var imgCntX = imgObj.imageData.width/2;
-		var imgCntY = imgObj.imageData.height/2;
-		var maxDis = Math.sqrt((imgCntY*imgCntY) + (imgCntX*imgCntX));
-		var dis = Math.sqrt(((imgObj.imageData.width/2-i)*(imgObj.imageData.width/2-i))-((imgObj.imageData.height/2-j)*(imgObj.imageData.height/2-j)));
-
-		for(var i=0;i<imgObj.imageData.width;i++){
-			for(var j=0;j<imgObj.imageData.height;j++){
-				var mix = imgObj.getColorAt(i,j);
-				var dis = Math.sqrt(Math.floor(Math.pow(i-imgCntY,2))+Math.floor(Math.pow(j-imgCntX,2)));
-				mix.red = mix.red*(1-(1-scaleLevel)*(dis/maxDis));
-           		mix.green = mix.green*(1-(1-scaleLevel)*(dis/maxDis));
-           		mix.blue = mix.blue*(1-(1-scaleLevel)*(dis/maxDis));
-				imgObj.setColorAt(i,j,mix);
-			}
-		}
 
 		//First quadrant (black and white)
 		for(var i=0;i<imgObj.imageData.width/2;i++){
@@ -187,6 +169,8 @@
 				imgObj.setColorAt(i,j,mix);
 			}
 		}
+		
+		//finally load image to canvas to show to user
 		imgObj.loadImageToCanvas();
 	}
 
