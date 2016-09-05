@@ -1,7 +1,7 @@
 # chobi
 The Image Processing Library made in pure Javascript
 
-<img src="http://i.imgur.com/k029yZm.jpg" alt="Drawing" width="200" height:="200"/><img src="http://i.imgur.com/efYOXGL.png" alt="Drawing" width="200" height:="200"/>
+<img src="http://i.imgur.com/k029yZm.jpg" alt="oroginal" width="200" height:="200"/><img src="http://i.imgur.com/efYOXGL.png" alt="pencil sketch" width="200" height:="200"/><img src="http://i.imgur.com/m9COl8W.png" alt="cross process" width="200" height:="200"/>
 
 ##Usage
 
