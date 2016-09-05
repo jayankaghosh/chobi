@@ -128,7 +128,7 @@ var Chobi = function(elem){
 				return true;
 			}
 			catch(e){
-				return false;
+				return e;
 			}
 		}
 		Chobi.prototype.blackAndWhite = function(){
@@ -172,8 +172,8 @@ var Chobi = function(elem){
          			var green=imageData.data[index+1];
         	 		var blue=imageData.data[index+2];
         	 		imageData.data[index] = (red*0.393)+(green*0.769)+(blue*0.189);
-        	 		imageData.data[index+1] = (red*0.349)+(green*0.686)+(blue*0.168);;
-        	 		imageData.data[index+2] = (red*0.272)+(green*0.534)+(blue*0.131);;
+        	 		imageData.data[index+1] = (red*0.349)+(green*0.686)+(blue*0.168);
+        	 		imageData.data[index+2] = (red*0.272)+(green*0.534)+(blue*0.131);
 				}
 			}
 			return this;
@@ -355,6 +355,27 @@ var Chobi = function(elem){
 		    var data = context.getImageData(x, y, width, height);
 		    this.imageData = data;
 		    return this;
+		}
+		Chobi.prototype.vignette = function(scaleLevel){
+				if(scaleLevel==""||scaleLevel==null){
+				scaleLevel = 0.1;
+				}
+				var imgCntX = this.imageData.width/2;
+				var imgCntY = this.imageData.height/2;
+				var maxDis = Math.sqrt((imgCntY*imgCntY) + (imgCntX*imgCntX));
+				var dis = Math.sqrt(((this.imageData.width/2-i)*(this.imageData.width/2-i))-((this.imageData.height/2-j)*(this.imageData.height/2-j)));
+
+				for(var i=0;i<this.imageData.width;i++){
+					for(var j=0;j<this.imageData.height;j++){
+						var mix = this.getColorAt(i,j);
+						var dis = Math.sqrt(Math.floor(Math.pow(i-imgCntY,2))+Math.floor(Math.pow(j-imgCntX,2)));
+						mix.red = mix.red*(1-(1-scaleLevel)*(dis/maxDis));
+		           		mix.green = mix.green*(1-(1-scaleLevel)*(dis/maxDis));
+		           		mix.blue = mix.blue*(1-(1-scaleLevel)*(dis/maxDis));
+						this.setColorAt(i,j,mix);
+					}
+				}
+				return this;
 		}
 		Chobi.prototype.download = function(filename){
 			if(filename==""){
