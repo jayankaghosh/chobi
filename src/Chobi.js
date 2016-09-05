@@ -377,9 +377,12 @@ var Chobi = function(elem){
 				}
 				return this;
 		}
-		Chobi.prototype.download = function(filename){
+		Chobi.prototype.download = function(filename,filetype){
 			if(filename==""){
 				filename="untitled";
+			}
+			if(filetype==""){
+				filetype = "png";
 			}
 			var imageData = this.imageData;
 			var drawArea = document.createElement('canvas');
@@ -387,11 +390,11 @@ var Chobi = function(elem){
 			drawArea.width = imageData.width;
 			drawArea.height = imageData.height;
 			ctx.putImageData(imageData,0,0);
-			var image = drawArea.toDataURL("image/png").replace("image/png", "image/octet-stream");
+			var image = drawArea.toDataURL("image/"+filetype).replace("image/"+filetype, "image/octet-stream");
 			var link = document.createElement('a');
 	        if (typeof link.download === 'string') {
 	             document.body.appendChild(link); // Firefox requires the link to be in the body
-	             link.download = filename+".png";
+	             link.download = filename+"."+filetype;
 	             link.href = image;
 	             link.click();
 	             document.body.removeChild(link); // remove the link when done
