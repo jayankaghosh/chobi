@@ -123,54 +123,38 @@
 
 
 	//custom filter
-	function myFilter(scaleLevel){
-
-		//First quadrant (black and white)
-		for(var i=0;i<imgObj.imageData.width/2;i++){
-			for(var j=0;j<imgObj.imageData.height/2;j++){
-				var mix = imgObj.getColorAt(i,j);
-				var avg = (mix.red+mix.green+mix.blue)/3;
-				mix.red = avg;
-				mix.green = avg;
-				mix.blue = avg;
-				imgObj.setColorAt(i,j,mix);
+	function myFilter(){
+var height = imgObj.imageData.height;
+		//orange
+		for(var i=0;i<imgObj.imageData.width;i++){
+			for(var j=0;j<(height/3);j++){
+				var pixel = imgObj.getColorAt(i,j);
+				pixel.red = (255+pixel.red)/2;
+				pixel.green = (165+pixel.green)/2;
+				pixel.blue /= 2;
+				imgObj.setColorAt(i,j,pixel);			
 			}
 		}
-		//Second quadrant (sepia)
-		for(var i=imgObj.imageData.width/2;i<imgObj.imageData.width;i++){
-			for(var j=0;j<imgObj.imageData.height/2;j++){
-				var mix = imgObj.getColorAt(i,j);
-				var red = (mix.red*0.393)+(mix.green*0.769)+(mix.blue*0.189);
-    	 		var green = (mix.red*0.349)+(mix.green*0.686)+(mix.blue*0.168);
-    	 		var blue = (mix.red*0.272)+(mix.green*0.534)+(mix.blue*0.131);
-				mix.red = red;
-				mix.green = green;
-				mix.blue = blue;
-				imgObj.setColorAt(i,j,mix);
+		//white
+		for(var i=0;i<imgObj.imageData.width;i++){
+			for(var j=height/3;j<(2*(height/3));j++){
+				var pixel = imgObj.getColorAt(i,j);
+				pixel.red = (255+pixel.red)/2;
+				pixel.green = (255+pixel.green)/2;
+				pixel.blue = (255+pixel.blue)/2;
+				imgObj.setColorAt(i,j,pixel);			
 			}
 		}
-		//Third quadrant (negative)
-		for(var i=0;i<imgObj.imageData.width/2;i++){
-			for(var j=imgObj.imageData.height/2;j<imgObj.imageData.height;j++){
-				var mix = imgObj.getColorAt(i,j);
-				mix.red = 255-mix.red;
-				mix.green = 255-mix.green;
-				mix.blue = 255-mix.blue;
-				imgObj.setColorAt(i,j,mix);
+		//green
+		for(var i=0;i<imgObj.imageData.width;i++){
+			for(var j=2*(height/3);j<height;j++){
+				var pixel = imgObj.getColorAt(i,j);
+				pixel.red = (0+pixel.red)/2;
+				pixel.green = (255+pixel.green)/2;
+				pixel.blue = (0+pixel.blue)/2;
+				imgObj.setColorAt(i,j,pixel);			
 			}
 		}
-		//Fourth quadrant (crossProcess)
-		for(var i=imgObj.imageData.width/2;i<imgObj.imageData.width;i++){
-			for(var j=imgObj.imageData.height/2;j<imgObj.imageData.height;j++){
-				var mix = imgObj.getColorAt(i,j);
-				mix.red = mix.green;
-				mix.green = mix.red;
-				mix.blue = 150;
-				imgObj.setColorAt(i,j,mix);
-			}
-		}
-		
-		//finally load image to canvas to show to user
 		imgObj.loadImageToCanvas();
 	}
 
