@@ -127,7 +127,7 @@
 var height = imgObj.imageData.height;
 		//orange
 		for(var i=0;i<imgObj.imageData.width;i++){
-			for(var j=0;j<(height/3);j++){
+			for(var j=0;j<Math.floor(height/3);j++){
 				var pixel = imgObj.getColorAt(i,j);
 				pixel.red = (255+pixel.red)/2;
 				pixel.green = (165+pixel.green)/2;
@@ -137,7 +137,7 @@ var height = imgObj.imageData.height;
 		}
 		//white
 		for(var i=0;i<imgObj.imageData.width;i++){
-			for(var j=height/3;j<(2*(height/3));j++){
+			for(var j=Math.floor(height/3);j<Math.floor(2*(height/3));j++){
 				var pixel = imgObj.getColorAt(i,j);
 				pixel.red = (255+pixel.red)/2;
 				pixel.green = (255+pixel.green)/2;
@@ -147,7 +147,7 @@ var height = imgObj.imageData.height;
 		}
 		//green
 		for(var i=0;i<imgObj.imageData.width;i++){
-			for(var j=2*(height/3);j<height;j++){
+			for(var j=Math.floor(2*(height/3));j<Math.floor(height);j++){
 				var pixel = imgObj.getColorAt(i,j);
 				pixel.red = (0+pixel.red)/2;
 				pixel.green = (255+pixel.green)/2;
