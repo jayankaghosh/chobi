@@ -4,34 +4,34 @@ var Chobi = function(elem){
 			if(elem instanceof(Image)){
 				this.image = elem;
 				this.imageData = this.extractImageData();
-				console.log('Type matched. instanceof(Image). Saved as [Chobi object]');
+				this.debugger('Type matched. instanceof(Image). Saved as [Chobi object]');
 				try{
 					this.onload();
 				}catch(e){
-					console.log('ready callback not found');
+					this.debugger('ready callback not found');
 				}
 			}
 			else if(typeof(elem)=='string'){
 				var context = this;
-				console.log('Not instanceof(Image). Trying as URL');
+				this.debugger('Not instanceof(Image). Trying as URL');
 				var img = new Image();
 				img.crossOrigin = "Anonymous";
 				img.src = elem;
 				img.onload = function(){
 					context.image = img;
 					context.imageData = context.extractImageData();
-					console.log('Type matched. URL. Saved as [Chobi object]');
+					context.debugger('Type matched. URL. Saved as [Chobi object]');
 					try{
 						context.onload();
 					}catch(e){
-						console.log('ready callback not found');
+						context.debugger('ready callback not found');
 					}
 					return;
 				}
 			}
 			else{
-				console.log('Not instanceof(Image). Trying as URL');
-				console.log('Not URL. Trying as input[file]');
+				this.debugger('Not instanceof(Image). Trying as URL');
+				this.debugger('Not URL. Trying as input[file]');
 				var context = this;
 				try {
 					var file = elem.files[0];
@@ -41,11 +41,11 @@ var Chobi = function(elem){
 						img.onload = function(){
 							context.image = img;
 							context.imageData = context.extractImageData();
-							console.log('Type matched. input[file]. Saved as [Chobi object]');
+							context.debugger('Type matched. input[file]. Saved as [Chobi object]');
 							try{
 								context.onload();
 							}catch(e){
-								console.log('ready callback not found');
+								context.debugger('ready callback not found');
 							}
 							return;
 						}
@@ -53,26 +53,26 @@ var Chobi = function(elem){
 					};
 					fr.readAsDataURL(file);
 				} catch(e) {
-					console.log("Not input[file]. Trying as <canvas>");
+					context.debugger("Not input[file]. Trying as <canvas>");
 				}
 				try{
 					var img = new Image();
 					var imgData = elem.toDataURL();
 					img.src = imgData;
-					console.log(imgData);
+					this.debugger(imgData);
 					img.onload = function(){
 						context.image = img;
 						context.imageData = context.extractImageData();
-						console.log('Type matched. <canvas>. Saved as [Chobi object]');
+						context.debugger('Type matched. <canvas>. Saved as [Chobi object]');
 						try{
 							context.onload();
 						}catch(e){
-							console.log('ready callback not found');
+							context.debugger('ready callback not found');
 						}
 						return;
 					}
 				}catch(e){
-					console.log('Not <canvas>. Trying as <img>');
+					context.debugger('Not <canvas>. Trying as <img>');
 				}
 				try{
 					var img = new Image();
@@ -80,18 +80,24 @@ var Chobi = function(elem){
 					img.onload = function(){
 						context.image = img;
 						context.imageData = context.extractImageData();
-						console.log('Type matched. <img>. Saved as [Chobi object]');
+						context.debugger('Type matched. <img>. Saved as [Chobi object]');
 						try{
 							context.onload();
 						}catch(e){
-							console.log('ready callback not found');
+							context.debugger('ready callback not found');
 						}
 						return;
 					}
 				}catch(e){
-					console.log('Not <img>. No other type is supported');
+					context.debugger('Not <img>. No other type is supported');
 				}
 
+			}
+		}
+		Chobi.prototype.debug = false;
+		Chobi.prototype.debugger = function(msg){
+			if(this.debug){
+				console.log(msg);
 			}
 		}
 		Chobi.prototype.ready = function(onLoadFunc){
@@ -261,7 +267,7 @@ var Chobi = function(elem){
 		Chobi.prototype.brightness = function(amount) {
 		    var imageData = this.imageData;
 		    amount = this.map(amount,-100,100,-255,255);
-		    console.log(amount);
+		    this.debugger(amount);
 		   	for(var i=0;i<imageData.width;i++){
 				for(var j=0;j<imageData.height;j++){
 					var index=(j*4)*imageData.width+(i*4);
@@ -312,6 +318,62 @@ var Chobi = function(elem){
 			this.contrast(400);
 			return this;
 		}
+		Chobi.prototype.watermark = function(img,q,x,y,width,height,callback){
+			var context = this;
+			if(callback == "" || callback == null){
+				callback = function(){this.debugger("Watermark method expects a callback")}
+			}
+			if(q==""){
+				q=3;
+			}
+			if(x==''||x==null){
+				x = 0;
+			}
+			if(y==''||y==null){
+				y = 0;
+			}
+			if(width==''||width==null){
+				width = this.imageData.width;
+			}
+			if(height==''||height==null){
+				height = this.imageData.height;
+			}
+			var scnd = new Chobi(img);
+			scnd.ready(function(){
+				this.resize(width,height);
+				for(var i=0;i<this.imageData.width;i++){
+					for(var j=0;j<this.imageData.height;j++){
+						var f = context.getColorAt(i+x,j+y);
+						var s = this.getColorAt(i,j);
+						var r = (q*f.red+s.red)/(q+1);
+						var g = (q*f.green+s.green)/(q+1);
+						var b = (q*f.blue+s.blue)/(q+1);
+						var p = {red:r,green:g,blue:b,alpha:f.alpha};
+						context.setColorAt(i+x,j+y,p);
+					}
+				}
+				callback();
+			});
+		}
+		Chobi.prototype.resize = function(width,height){
+			if((width==""&&height=="")||(width=="auto"&&height=="auto")){
+				width=this.imageData.width;
+				height=this.imageData.height;
+			}
+			if(width=="auto"){
+				width = (height/this.imageData.height)*this.imageData.width;
+			}
+			else if(height=="auto"){
+				height = (width/this.imageData.width)*this.imageData.height;
+			}
+			var oc = document.createElement('canvas');
+		    var octx = oc.getContext('2d');
+		    oc.width = width;
+		    oc.height = height;
+		    octx.drawImage(this.getImage(), 0, 0, oc.width, oc.height);
+		    this.imageData = octx.getImageData(0,0,width,height);
+		    return this;
+		}
 		Chobi.prototype.canvas = null;
 		Chobi.prototype.loadImageToCanvas = function(drawArea){
 			if(drawArea==null&&this.canvas!=null){
@@ -342,11 +404,11 @@ var Chobi = function(elem){
 		}
 		Chobi.prototype.crop = function(x,y,width,height){
 			if(x==""||y==""||width==""||height==""){
-				console.log("Invalid crop parameters");
+				this.debugger("Invalid crop parameters");
 				return this;
 			}
 			if(x<0||y<0||x>this.imageData.width||y>this.imageData.height||(x+width)>this.imageData.width||(y+height)>this.imageData.height){
-				console.log("Invalid crop parameters");
+				this.debugger("Invalid crop parameters");
 				return this;
 			}
 			var canvas = document.createElement("canvas");
