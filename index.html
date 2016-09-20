@@ -83,6 +83,9 @@
 			<button class="btn btn-success" onclick="filter(12)">Cartoonify</button>
 			<button class="btn btn-success" onclick="filter(13)">Vignette</button>
 			<button class="btn btn-warning" onclick="myFilter()">Custom Filter</button>
+			<button class="btn btn-success" onclick="document.getElementById('second').click()">Watermark</button>
+			<input id="second" type="file" onchange="showWatermark(this)" style="display:none;">
+
 		</div>
 		<input type="file" id="image-chooser" style="display:none" onchange="loadImage(this)">
       	<canvas id="canvas" width="600" height="600" class="well"></canvas>
@@ -122,12 +125,19 @@
 <script type="text/javascript">
 
 
-	//custom filter
+	function showWatermark(imgElem){
+		//watermark parameters	(imageElement, amount, startX, startY, width, height, callback)
+		imgObj.watermark(imgElem,2,0,0,imgObj.imageData.width,imgObj.imageData.height,function(){
+			imgObj.loadImageToCanvas();
+		});
+	}
+
+	//custom filter (india flag)
 	function myFilter(){
-var height = imgObj.imageData.height;
+	var height = imgObj.imageData.height;
 		//orange
 		for(var i=0;i<imgObj.imageData.width;i++){
-			for(var j=0;j<Math.floor(height/3);j++){
+			for(var j=0;j<(height/3);j++){
 				var pixel = imgObj.getColorAt(i,j);
 				pixel.red = (255+pixel.red)/2;
 				pixel.green = (165+pixel.green)/2;
