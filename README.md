@@ -66,4 +66,4 @@ __To make your own filter you may use the following methods__
 - `imgObj.imageData.height` to get the __height__ of the image
       
   
-For further implementation example, refer the __demo.html__ file
+For further implementation example, refer the __index.html__ file
